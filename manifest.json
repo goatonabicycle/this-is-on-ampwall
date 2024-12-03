@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "This is on Ampwall",
+  "description": "Hey! Did you know that this artist you're looking at on Bandcamp is also on Ampwall? ",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.bandcamp.com/*",
+    "https://ampwall.com/api/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/ampwall-logo.png"
+      ],
+      "matches": [
+        "*://*.bandcamp.com/*"
+      ]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.bandcamp.com/*"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "content.ts"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.ts"
+  },
+  "icons": {
+    "48": "public/icons/icon48.png",
+    "128": "public/icons/icon128.png"
+  }
+}

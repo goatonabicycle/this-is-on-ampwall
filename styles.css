@@ -1,0 +1,43 @@
+.ampwall-banner-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999999;
+}
+
+.ampwall-banner {
+  width: 100%;
+  background: #0a0a0a;
+  padding: 8px 16px;  
+  text-align: center;
+}
+
+.ampwall-banner-spacer {
+  height: 40px;   
+}
+
+.ampwall-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.ampwall-banner-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.ampwall-banner-logo {
+  height: 24px;
+  width: auto;
+}
+
+.ampwall-banner-link:hover {
+  text-decoration: underline;
+}
