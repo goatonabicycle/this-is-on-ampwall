@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "version": "1.0.0",
   "name": "This is on Ampwall",
-  "description": "This extension helps users discover if artists they're browsing on Bandcamp are also available on Ampwall",
+  "description": "Check if the Bandcamp artist you're listening to is also on Ampwall, helping you support them across platforms",
   "host_permissions": [
     "*://*.bandcamp.com/*",
     "https://ampwall.com/api/*"
