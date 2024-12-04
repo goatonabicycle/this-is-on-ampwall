@@ -3,20 +3,32 @@
   "manifest_version": 3,
   "version": "1.0.0",
   "name": "This is on Ampwall",
-  "description": "Hey! Did you know that this artist you're looking at on Bandcamp is also on Ampwall? ",
-  "permissions": ["activeTab"],
-  "host_permissions": ["*://*.bandcamp.com/*", "https://ampwall.com/api/*"],
+  "description": "This extension helps users discover if artists they're browsing on Bandcamp are also available on Ampwall",
+  "host_permissions": [
+    "*://*.bandcamp.com/*",
+    "https://ampwall.com/api/*"
+  ],
   "web_accessible_resources": [
     {
-      "resources": ["images/ampwall-logo.png"],
-      "matches": ["*://*.bandcamp.com/*"]
+      "resources": [
+        "images/ampwall-logo.png"
+      ],
+      "matches": [
+        "*://*.bandcamp.com/*"
+      ]
     }
   ],
   "content_scripts": [
     {
-      "matches": ["*://*.bandcamp.com/*"],
-      "css": ["styles.css"],
-      "js": ["content.ts"]
+      "matches": [
+        "*://*.bandcamp.com/*"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "content.ts"
+      ]
     }
   ],
   "background": {
