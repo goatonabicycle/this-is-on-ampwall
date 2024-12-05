@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "version": "1.0.0",
   "name": "This is on Ampwall",
-  "description": "Check if the Bandcamp artist you're listening to is also on Ampwall, helping you support them across platforms",
+  "description": "This is on Ampwall let you know if the Bandcamp artist you're looking at is on Ampwall.",
   "host_permissions": [
     "*://*.bandcamp.com/*",
     "https://ampwall.com/api/*"
