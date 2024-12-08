@@ -2,6 +2,8 @@
 
 > A simple extension that shows a banner on Bandcamp pages if the artist you're looking at is also on Ampwall.
 
+This is *not* an official Ampwall product and I am not a part of their development team! You should definitely checkout their website though! -> [http://ampwall.com](http://ampwall.com)
+
 ## This project uses
 
 - Extension.js for the extension framework

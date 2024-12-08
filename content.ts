@@ -1,3 +1,10 @@
+import {
+  getCachedArtist,
+  isNotFoundArtist,
+  storeArtist,
+  storeNotFoundArtist,
+} from "./cache";
+
 interface AmpwallArtist {
   name: string;
   artistLink: string;
@@ -38,7 +45,7 @@ function getArtistName(): string | null {
   return null;
 }
 
-function createAmpwallBanner(artist: AmpwallArtist) {
+function createAmpwallBanner(ampwallLink: string) {
   const wrapper = document.createElement("div");
   wrapper.className = "ampwall-banner-wrapper";
 
@@ -46,8 +53,10 @@ function createAmpwallBanner(artist: AmpwallArtist) {
   banner.className = "ampwall-banner";
   banner.innerHTML = `
     <div class="ampwall-banner-content">
-      <a href="${artist.artistLink}" target="_blank" class="ampwall-banner-link">
-        View on <img src="${chrome.runtime.getURL("images/ampwall-logo.png")}" alt="Ampwall" class="ampwall-banner-logo">
+      <a href="${ampwallLink}" target="_blank" class="ampwall-banner-link">
+        View on <img src="${chrome.runtime.getURL(
+          "images/ampwall-logo.png",
+        )}" alt="Ampwall" class="ampwall-banner-logo">
       </a>
     </div>
   `;
@@ -57,27 +66,38 @@ function createAmpwallBanner(artist: AmpwallArtist) {
 
   wrapper.appendChild(banner);
 
-  return { wrapper, spacer };
+  document.body.prepend(spacer);
+  document.body.prepend(wrapper);
 }
 
 async function init() {
   const artistName = getArtistName();
   if (!artistName) return;
 
-  console.log("this-is-on-ampwall -> Found artist:", artistName);
-  const searchResult = await searchAmpwall(artistName);
+  const cachedEntry = await getCachedArtist(artistName);
+  if (cachedEntry) {
+    createAmpwallBanner(cachedEntry.ampwallLink);
+    return;
+  }
 
+  if (await isNotFoundArtist(artistName)) {
+    return;
+  }
+
+  const searchResult = await searchAmpwall(artistName);
   if (searchResult?.status === "success") {
     const exactMatch = searchResult.data.results.find(
       (artist) => artist.similarityScore === 1,
     );
 
     if (exactMatch) {
-      console.log("this-is-on-ampwall -> Found on Ampwall:", exactMatch.name);
-      const { wrapper, spacer } = createAmpwallBanner(exactMatch);
-      document.body.prepend(spacer);
-      document.body.prepend(wrapper);
+      await storeArtist(artistName, exactMatch.artistLink);
+      createAmpwallBanner(exactMatch.artistLink);
+    } else {
+      await storeNotFoundArtist(artistName);
     }
+  } else {
+    await storeNotFoundArtist(artistName);
   }
 }
 

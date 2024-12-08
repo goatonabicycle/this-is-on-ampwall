@@ -8,6 +8,9 @@
     "*://*.bandcamp.com/*",
     "https://ampwall.com/api/*"
   ],
+  "permissions": [
+    "storage"
+  ],
   "web_accessible_resources": [
     {
       "resources": [

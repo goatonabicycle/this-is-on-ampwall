@@ -1,7 +1,7 @@
 {
   "name": "this-is-on-ampwall",
   "private": true,
-  "description": "Check if the artist you're viewing on Bandcamp is also on Ampwall",
+  "description": "Check if the artist you're looking at is also on Ampwall. This is not an official Ampwall product.",
   "license": "MIT",
   "scripts": {
     "dev": "extension dev",
