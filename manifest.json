@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest.json",
   "manifest_version": 3,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "name": "This is on Ampwall",
   "description": "This is on Ampwall lets you know if the Bandcamp artist you're looking at is on Ampwall.",
   "host_permissions": [
@@ -36,6 +36,9 @@
   ],
   "background": {
     "service_worker": "background.ts"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
   },
   "icons": {
     "48": "public/icons/icon48.png",

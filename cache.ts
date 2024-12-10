@@ -17,14 +17,15 @@ export interface CacheStore {
 const MONTH_IN_MS = 30 * 24 * 60 * 60 * 1000;
 const WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000;
 
-async function cleanExpiredEntries(): Promise<void> {
+async function getStore(): Promise<CacheStore> {
   const result = await chrome.storage.local.get("ampwall_artists");
-  const store: CacheStore = result.ampwall_artists || {
-    artists: [],
-    notFound: [],
-  };
+  return result.ampwall_artists || { artists: [], notFound: [] };
+}
 
+async function cleanExpiredEntries(): Promise<void> {
+  const store = await getStore();
   const now = Date.now();
+
   const validArtists = store.artists.filter(
     (entry) => now - entry.timestamp < MONTH_IN_MS,
   );
@@ -38,10 +39,7 @@ async function cleanExpiredEntries(): Promise<void> {
     validNotFound.length < store.notFound.length
   ) {
     await chrome.storage.local.set({
-      ampwall_artists: {
-        artists: validArtists,
-        notFound: validNotFound,
-      },
+      ampwall_artists: { artists: validArtists, notFound: validNotFound },
     });
   }
 }
@@ -50,12 +48,7 @@ export async function getCachedArtist(
   artistName: string,
 ): Promise<CacheEntry | null> {
   await cleanExpiredEntries();
-
-  const result = await chrome.storage.local.get("ampwall_artists");
-  const store: CacheStore = result.ampwall_artists || {
-    artists: [],
-    notFound: [],
-  };
+  const store = await getStore();
 
   return (
     store.artists.find(
@@ -66,12 +59,7 @@ export async function getCachedArtist(
 
 export async function isNotFoundArtist(artistName: string): Promise<boolean> {
   await cleanExpiredEntries();
-
-  const result = await chrome.storage.local.get("ampwall_artists");
-  const store: CacheStore = result.ampwall_artists || {
-    artists: [],
-    notFound: [],
-  };
+  const store = await getStore();
 
   return store.notFound.some(
     (entry) => entry.artistName.toLowerCase() === artistName.toLowerCase(),
@@ -83,12 +71,7 @@ export async function storeArtist(
   ampwallLink: string,
 ): Promise<void> {
   await cleanExpiredEntries();
-
-  const result = await chrome.storage.local.get("ampwall_artists");
-  const store: CacheStore = result.ampwall_artists || {
-    artists: [],
-    notFound: [],
-  };
+  const store = await getStore();
 
   const newEntry: CacheEntry = {
     artistName,
@@ -115,12 +98,7 @@ export async function storeArtist(
 
 export async function storeNotFoundArtist(artistName: string): Promise<void> {
   await cleanExpiredEntries();
-
-  const result = await chrome.storage.local.get("ampwall_artists");
-  const store: CacheStore = result.ampwall_artists || {
-    artists: [],
-    notFound: [],
-  };
+  const store = await getStore();
 
   const newEntry: NotFoundEntry = {
     artistName,
